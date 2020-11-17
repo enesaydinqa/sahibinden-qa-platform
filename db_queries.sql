@@ -14,3 +14,4 @@ use sahibinden_qa CREATE TABLE qa_user (id smallint unsigned not null auto_incre
 
 INSERT INTO qa_user (name_surname) VALUES ('Enes Aydin');
 INSERT INTO qa_user (name_surname) VALUES ('Tolga Molla');
+INSERT INTO qa_user (name_surname) VALUES ('Mustafa Ertürk');
