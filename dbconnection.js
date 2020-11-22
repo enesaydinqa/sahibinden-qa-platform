@@ -15,6 +15,7 @@ var db_config = {
   charset: 'utf8'
 };
 
+
 var sqlConnection = function sqlConnection(sql, values, next) {
 
   if (arguments.length === 2) {
