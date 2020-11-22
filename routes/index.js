@@ -1,8 +1,6 @@
 var express = require('express');
-var dbConnection = require('../dbconfig');
+var db_query_execute = require('../dbconnection');
 var router = express.Router();
-
-var con = dbConnection();
 
 async function wait(ms) {
     return new Promise((resolve, reject) => {
@@ -16,19 +14,16 @@ router.get('/', async function (req, res, next) {
     var testboxInfo;
     var qaUsers = [];
 
-    con.connect(function (err, connection) {
-        con.query('SELECT * FROM testbox', function (error, results, fields) {
-            if (error) res.render('error');
-            console.log(JSON.stringify(results, null, 4))
-            testboxInfo = results;
-        }); 
+    db_query_execute('SELECT * FROM testbox', function (err, rows) {
+        if (err) res.render('error');
+        console.log(rows)
+        testboxInfo = rows;
     });
 
-    con.connect(function (err, connection) {
-        con.query('SELECT name_surname FROM qa_user', function (error, results, fields) {
-            if (error) res.render('error');
-            Object.keys(results).forEach(function (key) { qaUsers.push(results[key]); });
-        });
+    db_query_execute('SELECT name_surname FROM qa_user', function (err, rows) {
+        if (err) res.render('error');
+        console.log(rows)
+        Object.keys(rows).forEach(function (key) { qaUsers.push(rows[key]); });
     });
 
     await wait(2000);
@@ -48,20 +43,25 @@ router.get('/error', function (req, res, next) {
     res.render('error');
 });
 
+router.get('/tags', function (req, res, next) {
+    db_query_execute('SELECT data_content FROM tags', function (err, rows) {
+        if (err) res.render('error');
+        console.log(rows)
+        res.render('tags', { page: 'Tags', menuId: 'tags', tagData: JSON.stringify(rows[0], null, 4) });
+    });
+});
+
+
+
+router.get('/getTags', function (req, res, next) {
+    db_query_execute('SELECT data_content FROM tags', function (err, rows) {
+        res.send(rows)
+    });
+});
+
 router.post('/testbox/update/:userId', function (req, res) {
     console.log(req.params.userId)
     res.statusCode(200)
-});
-
-router.get('/getQAUsers', function (req, res, next) {
-    con.connect(function (err, connection) {
-        con.query('SELECT name_surname FROM qa_user', function (error, results, fields) {
-            var qaUser = [];
-            Object.keys(results).forEach(function (key) { qaUser.push(results[key]); });
-            qaUser.forEach(item => console.log(item.name_surname))
-            res.send(qaUser)
-        });
-    });
 });
 
 module.exports = router;

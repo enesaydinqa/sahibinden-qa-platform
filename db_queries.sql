@@ -19,3 +19,8 @@ INSERT INTO qa_user (name_surname) VALUES ('Pinar Ormeci');
 INSERT INTO qa_user (name_surname) VALUES ('Berivan Göktas');
 INSERT INTO qa_user (name_surname) VALUES ('Hasan Can Yildir');
 
+
+
+use sahibinden_qa CREATE TABLE tags (id smallint unsigned not null auto_increment, data_content varchar(1000000), constraint pk_example primary key (id));
+
+INSERT INTO tags (data_content) VALUES ('');
