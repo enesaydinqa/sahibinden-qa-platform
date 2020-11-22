@@ -1,5 +1,5 @@
 var express = require('express');
-var db_query_execute = require('../dbConnection');
+var db_query_execute = require('../dbconnection');
 var router = express.Router();
 
 async function wait(ms) {
