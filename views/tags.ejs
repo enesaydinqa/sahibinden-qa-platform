@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <% include partials/head %>
+</head>
+
+<body>
+    <% include partials/menu %>
+
+    <div class="container" style="width:50%; margin-top: 3%;">
+        <div style="margin-top: 10px">
+            <input type="text" onchange='getTags()' name="search" id="search"
+                placeholder="Type the tag you want to search here, then press enter (example : search_result)"
+                class="form-control" />
+            <select class="form-control search-result" multiple name='selectMultiple' id="selectMultiple"
+                onchange="changeClipboardValue(this)"></select>
+            <p style="margin-top: 5px;"><b style="opacity: 0.4;"> Not : Arama alanına 'tests'
+                    yazarsanız, küre etiketleri de listelenir. Küre etiketi ilgili kürenin tüm testlerini koşar.</b></p>
+            <select readonly class="form-control search-result" multiple id="clipboard"></select>
+            <button style="margin-top: 10px; width:100%" type="button"
+                onclick="copyClipboardSelectedTags();successCopyClipboardMessage()" class="btn btn-info">Copy Clipboard
+            </button>
+        </div>
+        <hr>
+    </div>
+</body>
+
+</html>
+
+<script>
+    $(document).ready(function () {
+        $("#search").on("input", function () {
+            $("#search").text($(this).val());
+        });
+    });
+</script>
+
+<% include partials/script %>
