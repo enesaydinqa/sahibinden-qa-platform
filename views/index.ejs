@@ -10,22 +10,28 @@
     <% include partials/script %>
 
     <div class="row">
+        <% for(var i=0; i < data.length; i++) { %>
         <div class="column">
             <div class="card">
                 <div class="form-group">
+                    <p style="background-color:#dadada; font-weight: bold;"><%= data[i].testbox_id %></p>
+                </div>
+                <div class="form-group">
                     <label for="exampleFormControlSelect1">Use:</label>
                     <select class="form-control" id="exampleFormControlSelect1">
-                        <% name.map(item => { %><option value="<%= item.name_surname %>"><%= item.name_surname %>
-                        </option><% }) %>
+                        <option>Please Select</option>
+                        <% name.map(item => {  var selected = ( data[i].testbox_use == item.name_surname ) ? "selected" : ""; %>
+                        <option <%= selected %> ><%= item.name_surname %> </option>
+                        <% }) %>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="fname">Issue:</label>
-                    <input class="form-control" type="text" id="fname" name="fname">
+                    <input class="form-control" type="text" value="<%= data[i].issue %>" id="fname" name="fname">
                 </div>
                 <div class="form-group">
                     <label for="fname">Description:</label>
-                    <textarea class="form-control" name="comment" form="usrform"></textarea>
+                    <textarea class="form-control" name="comment" form="usrform"><%= data[i].description %></textarea>
                 </div>
                 <div class="form-group">
                     <button type="button" onclick="javascript:getQAUsers()" class="btn btn-success btn-sm">Save</button>
@@ -34,78 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="column">
-            <div class="card">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Use:</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <% name.map(item => { %><option value="<%= item.name_surname %>"><%= item.name_surname %>
-                        </option><% }) %>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="fname">Issue:</label>
-                    <input class="form-control" type="text" id="fname" name="fname">
-                </div>
-                <div class="form-group">
-                    <label for="fname">Description:</label>
-                    <textarea class="form-control" name="comment" form="usrform"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="button" onclick="javascript:getQAUsers()" class="btn btn-success btn-sm">Save</button>
-                    <button type="button" class="btn btn-primary btn-sm">Release</button>
-                    <button type="button" class="btn btn-info btn-sm">Open Issue</button>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="card">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Use:</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <% name.map(item => { %><option value="<%= item.name_surname %>"><%= item.name_surname %>
-                        </option><% }) %>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="fname">Issue:</label>
-                    <input class="form-control" type="text" id="fname" name="fname">
-                </div>
-                <div class="form-group">
-                    <label for="fname">Description:</label>
-                    <textarea class="form-control" name="comment" form="usrform"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="button" onclick="javascript:getQAUsers()" class="btn btn-success btn-sm">Save</button>
-                    <button type="button" class="btn btn-primary btn-sm">Release</button>
-                    <button type="button" class="btn btn-info btn-sm">Open Issue</button>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <div class="card">
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">Use:</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        <% name.map(item => { %><option value="<%= item.name_surname %>"><%= item.name_surname %>
-                        </option><% }) %>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="fname">Issue:</label>
-                    <input class="form-control" type="text" id="fname" name="fname">
-                </div>
-                <div class="form-group">
-                    <label for="fname">Description:</label>
-                    <textarea class="form-control" name="comment" form="usrform"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="button" onclick="javascript:getQAUsers()" class="btn btn-success btn-sm">Save</button>
-                    <button type="button" class="btn btn-primary btn-sm">Release</button>
-                    <button type="button" class="btn btn-info btn-sm">Open Issue</button>
-                </div>
-            </div>
-        </div>
+        <% } %>
     </div>
 </body>
 

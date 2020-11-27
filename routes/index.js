@@ -14,21 +14,19 @@ router.get('/', async function (req, res, next) {
     var testboxInfo;
     var qaUsers = [];
 
-    db_query_execute('SELECT * FROM testbox', function (err, rows) {
+    db_query_execute('SELECT * FROM testbox WHERE testbox_type = "GENERAL"', function (err, rows) {
         if (err) res.render('error');
-        console.log(rows)
         testboxInfo = rows;
     });
 
     db_query_execute('SELECT name_surname FROM qa_user', function (err, rows) {
         if (err) res.render('error');
-        console.log(rows)
         Object.keys(rows).forEach(function (key) { qaUsers.push(rows[key]); });
     });
 
     await wait(2000);
 
-    res.render('index', { page: 'Testbox', menuId: 'testbox', name: qaUsers, data: JSON.stringify(testboxInfo, null, 4) });
+    res.render('index', { page: 'Testbox', menuId: 'testbox', name: qaUsers, data: testboxInfo });
 });
 
 router.get('/device', function (req, res, next) {

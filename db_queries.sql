@@ -5,6 +5,11 @@ use sahibinden_qa CREATE TABLE testbox (id smallint unsigned not null auto_incre
 INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (1, 'ENES AYDIN', 'no issue', null, 'Mobiletest05', 'GENERAL');
 INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (2, 'TOLGA MOLLA', 'no issue', null, 'Mobiletest06', 'GENERAL');
 INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (3, 'TOLGA MOLLA', 'no issue', null, 'Mobiletest03', 'GENERAL');
+INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (5, 'TOLGA MOLLA', '', null, 'Mobiletest09', 'GENERAL');
+INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (6, 'Enes Aydın', '', null, 'Mobiletest10', 'GENERAL');
+INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (17, 'Esra Köse', '', null, 'Mobiletest13', 'GENERAL');
+INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (19, 'Esra Köse', '', null, 'Mobiletest14', 'GENERAL');
+
 
 INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (65, null, 'no issue', null, null, 'RELEASE');
 
