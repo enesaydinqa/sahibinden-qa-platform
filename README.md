@@ -1,4 +1,4 @@
-# Build Simple Website with NodeJS, Express & EJS view engine
+# Build Sahibinden QA Platform Website with NodeJS, Express & EJS view engine
 
 ## Document
 * Clone this repo: ``` git clone https://github.com/enesaydinqa/sahibinden-qa-platform.git ```
