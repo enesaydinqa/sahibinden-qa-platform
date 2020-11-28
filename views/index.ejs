@@ -14,24 +14,26 @@
         <div class="column">
             <div class="card">
                 <div class="form-group">
-                    <p style="background-color:#dadada; font-weight: bold;"><%= data[i].testbox_id %></p>
+                    <% var style = ( data[i].in_use ) ? "#ff5959" : "#dadada"; %>
+                    <p style="background-color:<%= style %>; font-weight: bold;"><%= data[i].testbox_id %></p>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">Use:</label>
-                    <select class="form-control" id="exampleFormControlSelect1">
+                    <label for="testbox-use">Use:</label>
+                    <select class="form-control" id="testbox-use">
                         <option>Please Select</option>
                         <% name.map(item => {  var selected = ( data[i].testbox_use == item.name_surname ) ? "selected" : ""; %>
-                        <option <%= selected %> ><%= item.name_surname %> </option>
+                        <option <%= selected %> > <%= item.name_surname %> </option>
                         <% }) %>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="fname">Issue:</label>
-                    <input class="form-control" type="text" value="<%= data[i].issue %>" id="fname" name="fname">
+                    <label for="issue">Issue:</label>
+                    <input class="form-control" type="text" value="<%= data[i].issue %>" name="issue">
                 </div>
                 <div class="form-group">
-                    <label for="fname">Description:</label>
-                    <textarea class="form-control" name="comment" form="usrform"><%= data[i].description %></textarea>
+                    <label for="description">Description:</label>
+                    <textarea class="form-control" name="description"
+                        form="usrform"><%= data[i].description %></textarea>
                 </div>
                 <div class="form-group">
                     <button type="button" onclick="javascript:getQAUsers()" class="btn btn-success btn-sm">Save</button>

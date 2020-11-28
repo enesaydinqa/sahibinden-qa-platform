@@ -14,7 +14,7 @@ router.get('/', async function (req, res, next) {
     var testboxInfo;
     var qaUsers = [];
 
-    db_query_execute('SELECT * FROM testbox WHERE testbox_type = "GENERAL"', function (err, rows) {
+    db_query_execute('SELECT * FROM testbox WHERE testbox_type = "GENERAL" ORDER BY testbox_id ASC', function (err, rows) {
         if (err) res.render('error');
         testboxInfo = rows;
     });
