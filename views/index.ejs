@@ -15,11 +15,11 @@
             <div class="card">
                 <div class="form-group">
                     <% var style = ( data[i].in_use ) ? "#ff5959" : "#dadada"; %>
-                    <p style="background-color:<%= style %>; font-weight: bold;"><%= data[i].testbox_id %></p>
+                    <p class='testbox-value' style="background-color:<%= style %>; font-weight: bold; font-size:17px;"><%= data[i].testbox_id %></p>
                 </div>
                 <div class="form-group">
                     <label for="testbox-use">Use:</label>
-                    <select class="form-control" id="testbox-use">
+                    <select class="form-control testbox-use">
                         <option>Please Select</option>
                         <% name.map(item => {  var selected = ( data[i].testbox_use == item.name_surname ) ? "selected" : ""; %>
                         <option <%= selected %> > <%= item.name_surname %> </option>
@@ -28,15 +28,15 @@
                 </div>
                 <div class="form-group">
                     <label for="issue">Issue:</label>
-                    <input class="form-control" type="text" value="<%= data[i].issue %>" name="issue">
+                    <input class="form-control issue" type="text" value="<%= data[i].issue %>" name="issue">
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
-                    <textarea class="form-control" name="description"
+                    <textarea class="form-control description" name="description"
                         form="usrform"><%= data[i].description %></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="button" onclick="javascript:getQAUsers()" class="btn btn-success btn-sm">Save</button>
+                    <button type="button" onclick="javascript:saveTestbox(this)" class="btn btn-success btn-sm">Save</button>
                     <button type="button" class="btn btn-primary btn-sm">Release</button>
                     <button type="button" class="btn btn-info btn-sm">Open Issue</button>
                 </div>

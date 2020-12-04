@@ -57,9 +57,24 @@ router.get('/getTags', function (req, res, next) {
     });
 });
 
-router.post('/testbox/update/:userId', function (req, res) {
-    console.log(req.params.userId)
-    res.statusCode(200)
+router.post('/testbox/update', function (req, res) {
+
+    var testboxNumber = req.body.testbox;
+    var testboxUse = req.body.testboxUse;
+    var issueNumber = req.body.issueNumber;
+    var issueDescription = req.body.issueDescription
+
+    let sql = `UPDATE testbox SET testbox_use = ?, issue = ?, description = ?, in_use = 1 WHERE testbox_id = ?`;
+
+    let data = [req.body.testboxUse, req.body.issueNumber, req.body.issueDescription, req.body.testbox];
+
+    db_query_execute(sql, data, function (err, rows) {
+        response = {
+            message: 'Successfully',
+            status: 200
+        };
+        res.end(JSON.stringify(response));
+    });
 });
 
 module.exports = router;
