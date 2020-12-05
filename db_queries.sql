@@ -30,7 +30,7 @@ INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, t
 
 
 
-INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type) VALUES (65, null, 'no issue', null, null, 'RELEASE');
+INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, testbox_type,in_use) VALUES (65, null, 'no issue', null, null, 'RELEASE', 0);
 
 
 
