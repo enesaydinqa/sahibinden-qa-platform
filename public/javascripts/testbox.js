@@ -55,3 +55,9 @@ function releaseTestbox(testbox) {
         }
     });
 }
+
+function openIssue(testbox) {
+    var issue = $(testbox).closest('.card').find(".issue").first().val();
+    var win = window.open("https://jira.sahibinden.com/browse/" + issue, '_blank');
+    win.focus();
+}
