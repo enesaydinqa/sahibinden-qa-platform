@@ -1,13 +1,3 @@
-function getQAUsers() {
-    $.ajax({
-        type: "GET",
-        url: "/getQAUsers",
-        success: function (data) {
-            return data;
-        },
-    });
-}
-
 function saveTestbox(testbox) {
 
     var textboxNumber = $(testbox).closest('.card').find("p").first().text();
@@ -15,7 +5,7 @@ function saveTestbox(testbox) {
     var issue = $(testbox).closest('.card').find(".issue").first().val();
     var description = $(testbox).closest('.card').find(".description").first().val();
 
-    var formData = { testbox: textboxNumber, testboxUse: use, issueNumber : issue, issueDescription : description};
+    var formData = { testbox: textboxNumber, testboxUse: use, issueNumber: issue, issueDescription: description };
 
     $.ajax({
         url: "/testbox/update",
@@ -24,6 +14,15 @@ function saveTestbox(testbox) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data, textStatus, jqXHR) {
+
+            var tb = $(testbox).closest('.card').find("p").first();
+
+            if (use != "Please Select") {
+                tb.css({ "background-color": "#ff5959" });
+            } else {
+                tb.css({ "background-color": "#dadada" });
+            }
+
             $.notify(data.message, "success");
         },
         error: function (jqXHR, textStatus, errorThrown) {

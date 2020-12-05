@@ -2,7 +2,7 @@ function getTags() {
 
     $.ajax({
         type: "GET",
-        url: "/getTags",
+        url: "/tags/getTags",
         dataType: "json"
     }).then(function (data) {
 

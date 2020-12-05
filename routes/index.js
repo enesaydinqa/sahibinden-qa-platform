@@ -1,6 +1,5 @@
-var express = require('express');
+var router = require('express').Router();
 var db_query_execute = require('../dbconnection');
-var router = express.Router();
 
 async function wait(ms) {
     return new Promise((resolve, reject) => {
@@ -29,33 +28,7 @@ router.get('/', async function (req, res, next) {
     res.render('index', { page: 'Testbox', menuId: 'testbox', name: qaUsers, data: testboxInfo });
 });
 
-router.get('/device', function (req, res, next) {
-    res.render('device', { page: 'Device Info', menuId: 'device' });
-});
-
-router.get('/contact', function (req, res, next) {
-    res.render('contact', { page: 'Contact Us', menuId: 'contact' });
-});
-
-router.get('/error', function (req, res, next) {
-    res.render('error');
-});
-
-router.get('/tags', function (req, res, next) {
-    db_query_execute('SELECT data_content FROM tags', function (err, rows) {
-        if (err) res.render('error');
-        console.log(rows)
-        res.render('tags', { page: 'Tags', menuId: 'tags', tagData: JSON.stringify(rows[0], null, 4) });
-    });
-});
-
-
-
-router.get('/getTags', function (req, res, next) {
-    db_query_execute('SELECT data_content FROM tags', function (err, rows) {
-        res.send(rows)
-    });
-});
+router.get('/device', function (req, res, next) { res.render('device', { page: 'Device Info', menuId: 'device' }); });
 
 router.post('/testbox/update', function (req, res) {
 
@@ -63,18 +36,17 @@ router.post('/testbox/update', function (req, res) {
     var testboxUse = req.body.testboxUse;
     var issueNumber = req.body.issueNumber;
     var issueDescription = req.body.issueDescription
+    var inUse = (testboxUse == "Please Select") ? 0 : 1;
 
-    let sql = `UPDATE testbox SET testbox_use = ?, issue = ?, description = ?, in_use = 1 WHERE testbox_id = ?`;
+    let sql = `UPDATE testbox SET testbox_use = ?, issue = ?, description = ?, in_use = ? WHERE testbox_id = ?`;
 
-    let data = [req.body.testboxUse, req.body.issueNumber, req.body.issueDescription, req.body.testbox];
+    let data = [req.body.testboxUse, req.body.issueNumber, req.body.issueDescription, inUse, req.body.testbox];
 
     db_query_execute(sql, data, function (err, rows) {
-        response = {
-            message: 'Successfully',
-            status: 200
-        };
+        response = { message: 'Successfully', status: 200 };
         res.end(JSON.stringify(response));
     });
 });
+
 
 module.exports = router;

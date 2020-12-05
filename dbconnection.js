@@ -43,9 +43,3 @@ var sqlConnection = function sqlConnection(sql, values, next) {
 }
 
 module.exports = sqlConnection;
-
-/*
-mysql_query('SELECT * from your_table where ?', {id: '1'}, function(err, rows)   {
-  console.log(rows);
-});
-*/
