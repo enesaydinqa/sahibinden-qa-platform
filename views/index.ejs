@@ -32,12 +32,12 @@
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label>
-                    <textarea class="form-control description" name="description"
+                    <textarea style='resize: none;'class="form-control description" name="description"
                         form="usrform"><%= data[i].description %></textarea>
                 </div>
                 <div class="form-group">
                     <button type="button" onclick="javascript:saveTestbox(this)" class="btn btn-success btn-sm">Save</button>
-                    <button type="button" class="btn btn-primary btn-sm">Release</button>
+                    <button type="button" onclick="javascript:releaseTestbox(this)" class="btn btn-primary btn-sm">Release</button>
                     <button type="button" class="btn btn-info btn-sm">Open Issue</button>
                 </div>
             </div>

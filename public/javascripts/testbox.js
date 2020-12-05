@@ -30,3 +30,28 @@ function saveTestbox(testbox) {
         }
     });
 }
+
+function releaseTestbox(testbox) {
+
+    var textboxNumber = $(testbox).closest('.card').find("p").first().text();
+    var formData = { testbox: textboxNumber };
+
+    $.ajax({
+        url: "/testbox/release",
+        type: "POST",
+        data: JSON.stringify(formData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data, textStatus, jqXHR) {
+            $(testbox).closest('.card').find('.testbox-use').val('Please Select').change()
+            $(testbox).closest('.card').find("p").first().css({ "background-color": "#dadada" });
+            $(testbox).closest('.card').find(".issue").first().val("");
+            $(testbox).closest('.card').find(".description").first().val("");
+
+            $.notify(data.message, "info");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+
+        }
+    });
+}

@@ -28,14 +28,8 @@ router.get('/', async function (req, res, next) {
     res.render('index', { page: 'Testbox', menuId: 'testbox', name: qaUsers, data: testboxInfo });
 });
 
-router.get('/device', function (req, res, next) { res.render('device', { page: 'Device Info', menuId: 'device' }); });
-
 router.post('/testbox/update', function (req, res) {
-
-    var testboxNumber = req.body.testbox;
     var testboxUse = req.body.testboxUse;
-    var issueNumber = req.body.issueNumber;
-    var issueDescription = req.body.issueDescription
     var inUse = (testboxUse == "Please Select") ? 0 : 1;
 
     let sql = `UPDATE testbox SET testbox_use = ?, issue = ?, description = ?, in_use = ? WHERE testbox_id = ?`;
@@ -44,6 +38,18 @@ router.post('/testbox/update', function (req, res) {
 
     db_query_execute(sql, data, function (err, rows) {
         response = { message: 'Successfully', status: 200 };
+        res.end(JSON.stringify(response));
+    });
+});
+
+router.post('/testbox/release', function (req, res) {
+    var testboxNumber = req.body.testbox;
+
+    let sql = `UPDATE testbox SET testbox_use = 'Please Select', issue = '', description = '', in_use = 0 WHERE testbox_id = ?`;
+    let data = [testboxNumber];
+
+    db_query_execute(sql, data, function (err, rows) {
+        response = { message: testboxNumber + ' : Testbox released', status: 200 };
         res.end(JSON.stringify(response));
     });
 });
