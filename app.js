@@ -23,14 +23,14 @@ app.use('/tags', tagsRouter);
 app.use('/extension', extensionsRouter);
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error', { status: err.status, message: err.message });

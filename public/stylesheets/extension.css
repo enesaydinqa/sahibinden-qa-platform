@@ -1,6 +1,6 @@
-body>div {
+body>div.card {
     margin-top: 1.5%;
-    margin-left: 2%;
+    margin-left: 4%;
 }
 
 .add {

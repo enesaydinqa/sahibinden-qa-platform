@@ -9,4 +9,16 @@ router.get('/', function(req, res, next) {
     });
 });
 
+router.post('/save', function(req, res, next) {
+
+    let sql = 'INSERT INTO extensions (name, description, link) VALUES (?, ?, ?);';
+
+    let data = [req.body.name, req.body.description, req.body.link];
+
+    db_query_execute(sql, data, function(err, rows) {
+        response = { message: 'Saved Extension', status: 200 };
+        res.end(JSON.stringify(response));
+    });
+});
+
 module.exports = router;
