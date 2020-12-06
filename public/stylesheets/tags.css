@@ -41,7 +41,8 @@
     background-color: #e8e0e0;
 }
 
-html, body {
+html,
+body {
     overflow: initial !important;
 }
 

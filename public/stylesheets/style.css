@@ -22,6 +22,7 @@
     color: #1abc9c !important;
 }
 
-.active > a {
-    color: #1abc9c !important;;
+.active>a {
+    color: #1abc9c !important;
+    ;
 }

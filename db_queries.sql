@@ -34,7 +34,7 @@ INSERT INTO testbox (testbox_id, testbox_use, issue, description, mobile_test, t
 
 
 
-use sahibinden_qa CREATE TABLE qa_user (id smallint unsigned not null auto_increment,  name_surname varchar(100),   constraint pk_example primary key (id));
+use sahibinden_qa CREATE TABLE qa_user (id smallint unsigned not null auto_increment,  name_surname varchar(100),  constraint pk_example primary key (id));
 
 ALTER TABLE qa_user CONVERT TO CHARACTER SET utf8;
 
@@ -46,9 +46,15 @@ INSERT INTO qa_user (name_surname) VALUES ('Berivan Göktas');
 INSERT INTO qa_user (name_surname) VALUES ('Hasan Can Yildir');
 
 
-
 use sahibinden_qa CREATE TABLE tags (id smallint unsigned not null auto_increment, data_content varchar(1000000), constraint pk_example primary key (id));
 
 ALTER TABLE tags CONVERT TO CHARACTER SET utf8;
 
 INSERT INTO tags (data_content) VALUES ('');
+
+
+CREATE TABLE extensions (id smallint unsigned not null auto_increment, name varchar(100), description varchar(100), link varchar(1000), constraint pk_example primary key (id)) CHARACTER SET utf8;
+
+INSERT INTO extensions (name, description, link) VALUES ('sahibinden - testbox', 'Testbox extension for sahibinden', 'https://chrome.google.com/webstore/detail/sahibinden-testbox/hjfhcngngkaoeindmmnofgmciecfkmke');
+INSERT INTO extensions (name, description, link) VALUES ('sahibinden - classified builder', 'Classified form fill chrome extension.', 'https://chrome.google.com/webstore/detail/sahibindencom-classified/epkbgddokifbcagmaedbmklcggfmjpdi');
+INSERT INTO extensions (name, description, link) VALUES ('EditThisCookie', 'Cookie management extension.', 'https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg?hl=tr');
