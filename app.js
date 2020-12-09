@@ -4,6 +4,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var tagsRouter = require('./routes/tags');
 var extensionsRouter = require('./routes/extensions');
+var iosRouter = require('./routes/ios');
 var bodyParser = require('body-parser');
 var app = express();
 
@@ -17,11 +18,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 // routes
-
 app.use('/', indexRouter);
 app.use('/tags', tagsRouter);
 app.use('/extension', extensionsRouter);
-app.use('/ios', extensionsRouter);
+app.use('/ios', iosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
