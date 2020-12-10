@@ -11,6 +11,9 @@ var nrc = require('node-run-cmd');
 const imageToBase64 = require('image-to-base64');
 
 const WebSocketServer = require('websocket').server;
+const { NodeSSH } = require('node-ssh')
+
+const ssh = new NodeSSH()
 
 /**
  * Get port from environment and store in Express.
@@ -55,14 +58,17 @@ wsServer.on('request', function(request) {
     connection.on('message', async function(message) {
         console.log('Received Message:', message.utf8Data);
 
-        for (i = 0; i < 9999999; i++) {
-
-            var promise = nrc.run('idevicescreenshot -u 65a2d58368b2a0ef55423a8e88f66db28b2851d2 phones/65a2d58368b2a0ef55423a8e88f66db28b2851d2.png');
-
-            promise.then(function() { imageToBase64("phones/65a2d58368b2a0ef55423a8e88f66db28b2851d2.png").then((response) => { connection.send(response) }) }, function() { console.log("error") });
-
-            await wait(300);
-        }
+        ssh.connect({
+            host: '10.1.11.212',
+            username: 'macmini4',
+            password: '1234'
+        }).then(async function() {
+            for (i = 0; i < 999999; i++) {
+                console.log("bağlandı")
+                await ssh.execCommand('idevicescreenshot -u 0d123e38d24c6df3d198b576fd6f7396ed46978a test.png', { cwd: '/Users/macmini4/Desktop' });
+                ssh.execCommand('cat test.png | base64', { cwd: '/Users/macmini4/Desktop' }).then(function(result) { connection.send(result.stdout); })
+            }
+        });
     });
 
     connection.on('close', function(reasonCode, description) {

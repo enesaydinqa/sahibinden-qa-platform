@@ -9,6 +9,9 @@ function start(el) {
         };
 
         ws.onmessage = function(e) {
+
+            console.log(e.data)
+
             document.getElementById("phone1").src = "data:image/jpg;base64," + e.data
             document.getElementById("phone2").src = "data:image/jpg;base64," + e.data
             document.getElementById("phone3").src = "data:image/jpg;base64," + e.data
