@@ -1,7 +1,9 @@
+var ws
+
 function start(el) {
 
     if (el.checked) {
-        var ws = new WebSocket('ws://' + location.host + '/');
+        ws = new WebSocket('ws://' + location.host + '/');
 
         ws.onopen = function() {
             console.log('WebSocket Client Connected');
@@ -9,17 +11,13 @@ function start(el) {
         };
 
         ws.onmessage = function(e) {
+            var data = JSON.parse(e.data);
 
-            console.log(e.data)
-
-            document.getElementById("phone1").src = "data:image/jpg;base64," + e.data
-            document.getElementById("phone2").src = "data:image/jpg;base64," + e.data
-            document.getElementById("phone3").src = "data:image/jpg;base64," + e.data
-            document.getElementById("phone4").src = "data:image/jpg;base64," + e.data
-            document.getElementById("phone5").src = "data:image/jpg;base64," + e.data
-            document.getElementById("phone6").src = "data:image/jpg;base64," + e.data
+            console.log(data)
+            document.getElementById(data[0]).src = "data:image/jpg;base64," + data[1]
         };
     } else {
+        ws.send(false)
         location.reload();
     }
 }

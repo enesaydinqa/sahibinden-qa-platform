@@ -8,7 +8,6 @@ var app = require('../app');
 var debug = require('debug')('website:server');
 var http = require('http');
 var nrc = require('node-run-cmd');
-const imageToBase64 = require('image-to-base64');
 
 const WebSocketServer = require('websocket').server;
 const { NodeSSH } = require('node-ssh')
@@ -52,26 +51,38 @@ async function wait(ms) {
     });
 }
 
-wsServer.on('request', function(request) {
+wsServer.on('request', async function(request) {
     const connection = request.accept(null, request.origin);
 
     connection.on('message', async function(message) {
-        console.log('Received Message:', message.utf8Data);
-
         ssh.connect({
             host: '10.1.11.212',
             username: 'macmini4',
             password: '1234'
         }).then(async function() {
             for (i = 0; i < 999999; i++) {
-                console.log("bağlandı")
-                await ssh.execCommand('idevicescreenshot -u 0d123e38d24c6df3d198b576fd6f7396ed46978a test.png', { cwd: '/Users/macmini4/Desktop' });
-                ssh.execCommand('cat test.png | base64', { cwd: '/Users/macmini4/Desktop' }).then(function(result) { connection.send(result.stdout); })
+
+                var devices = ["c41e0c25fe4c0ce0ef28cf8d4862e08ce5ac46c9", "0d123e38d24c6df3d198b576fd6f7396ed46978a"];
+
+                for (i = 0; i < devices.length; i++) {
+
+                    var deviceId = devices[i];
+                    var device = "idevicescreenshot -u " + deviceId + " " + deviceId + ".png";
+                    var base64 = "cat " + deviceId + ".png | base64";
+
+                    console.log(device)
+                    console.log(base64)
+
+                    await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
+                    ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(function(result) {
+                        connection.send(JSON.stringify([deviceId, result.stdout]));
+                    });
+                }
             }
         });
     });
 
-    connection.on('close', function(reasonCode, description) {
+    connection.on('close', async function(reasonCode, description) {
         console.log('Client has disconnected.');
     });
 });
