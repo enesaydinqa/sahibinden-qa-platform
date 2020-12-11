@@ -13,9 +13,7 @@ function saveExtension() {
         success: function(data, textStatus, jqXHR) {
             location.reload()
         },
-        error: function(jqXHR, textStatus, errorThrown) {
-
-        }
+        error: function(jqXHR, textStatus, errorThrown) {}
     });
     ß
 
