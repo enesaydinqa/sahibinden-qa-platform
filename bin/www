@@ -18,8 +18,7 @@ const ssh = new NodeSSH()
  * Get port from environment and store in Express.
  */
 
-var PORT = normalizePort(process.env.PORT || '8080');
-var HOST = '0.0.0.0';
+var PORT = normalizePort(process.env.PORT || '3060');
 app.set('port', PORT);
 
 /**
@@ -32,7 +31,7 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(PORT, HOST);
+server.listen(PORT);
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -45,12 +44,6 @@ const wsServer = new WebSocketServer({
     httpServer: server
 });
 
-async function wait(ms) {
-    return new Promise((resolve, reject) => {
-        setTimeout(resolve, ms)
-    });
-}
-
 wsServer.on('request', async function(request) {
     const connection = request.accept(null, request.origin);
 
@@ -62,9 +55,26 @@ wsServer.on('request', async function(request) {
         }).then(async function() {
             for (i = 0; i < 999999; i++) {
 
-                var devices = ["c41e0c25fe4c0ce0ef28cf8d4862e08ce5ac46c9", "0d123e38d24c6df3d198b576fd6f7396ed46978a"];
+                var devices = [
+                    "c41e0c25fe4c0ce0ef28cf8d4862e08ce5ac46c9",
+                    "0d123e38d24c6df3d198b576fd6f7396ed46978a",
+                    "12b0530d88260b3211a4f360ea42c8c945ddeae4",
+                    "00008030-0018306102E0402E",
+                    "00008030-0002199E0ED3802E",
+                    "00008030-000451410E87802E"
+                ];
+
+                if (message.utf8Data == "false") {
+                    break;
+                }
 
                 for (i = 0; i < devices.length; i++) {
+
+                    console.log(message.utf8Data)
+
+                    if (message.utf8Data == "false") {
+                        break;
+                    }
 
                     var deviceId = devices[i];
                     var device = "idevicescreenshot -u " + deviceId + " " + deviceId + ".png";
@@ -74,9 +84,10 @@ wsServer.on('request', async function(request) {
                     console.log(base64)
 
                     await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
-                    ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(function(result) {
-                        connection.send(JSON.stringify([deviceId, result.stdout]));
-                    });
+                    await ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' })
+                        .then(async function(result) {
+                            await connection.send(JSON.stringify([deviceId, result.stdout]));
+                        });
                 }
             }
         });

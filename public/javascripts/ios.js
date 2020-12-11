@@ -12,12 +12,10 @@ function start(el) {
 
         ws.onmessage = function(e) {
             var data = JSON.parse(e.data);
-
             console.log(data)
             document.getElementById(data[0]).src = "data:image/jpg;base64," + data[1]
         };
     } else {
         ws.send(false)
-        location.reload();
     }
 }
