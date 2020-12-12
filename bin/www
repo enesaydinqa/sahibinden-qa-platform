@@ -11,9 +11,14 @@ var nrc = require('node-run-cmd');
 
 const WebSocketServer = require('websocket').server;
 const { NodeSSH } = require('node-ssh')
-
 const ssh = new NodeSSH()
 
+<<<<<<< Updated upstream
+=======
+var db_query_execute = require('../dbconnection');
+
+
+>>>>>>> Stashed changes
 /**
  * Get port from environment and store in Express.
  */
@@ -54,8 +59,12 @@ wsServer.on('request', function(request) {
             password: '1234'
         }).then(function() {
 
+<<<<<<< Updated upstream
             console.log(message.utf8Data);
             connection.send(message.utf8Data)
+=======
+                    for (i = 0; i < devices.length; i++) {
+>>>>>>> Stashed changes
 
             /*
             var devices = [
@@ -71,6 +80,7 @@ wsServer.on('request', function(request) {
 
                 console.log(message.utf8Data)
 
+<<<<<<< Updated upstream
                 if (message.utf8Data == "false") {
                     break;
                 }
@@ -90,6 +100,37 @@ wsServer.on('request', function(request) {
             }
             */
         });
+=======
+                            console.log(deviceId)
+                            console.log(device)
+                            console.log(base64)
+
+                            connection.send(JSON.stringify([deviceId]));
+
+                            await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
+                            await ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(async function(result) {
+
+                                console.log("connected : " + connection.connected);
+
+                                if (connection.connected == true) {
+
+                                    let sql = 'UPDATE phones SET base64 = ? WHERE uid = ?'
+                                    let data = [result.stdout, deviceId];
+
+                                    db_query_execute(sql, data, function(err, rows) {
+                                        console.log("base64 db added ...")
+                                        connection.send(JSON.stringify([deviceId]));
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        } else {
+            console.log("client => ping")
+        }
+>>>>>>> Stashed changes
     });
 
     connection.on('close', function(reasonCode, description) {
