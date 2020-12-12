@@ -7,18 +7,14 @@
 var app = require('../app');
 var debug = require('debug')('website:server');
 var http = require('http');
-var nrc = require('node-run-cmd');
 
 const WebSocketServer = require('websocket').server;
 const { NodeSSH } = require('node-ssh')
 const ssh = new NodeSSH()
 
-<<<<<<< Updated upstream
-=======
 var db_query_execute = require('../dbconnection');
 
 
->>>>>>> Stashed changes
 /**
  * Get port from environment and store in Express.
  */
@@ -49,63 +45,53 @@ const wsServer = new WebSocketServer({
     httpServer: server
 });
 
-wsServer.on('request', function(request) {
+wsServer.on('request', async function(request) {
     const connection = request.accept(null, request.origin);
 
-    connection.on('message', function(message) {
-        ssh.connect({
-            host: '10.1.11.212',
-            username: 'macmini4',
-            password: '1234'
-        }).then(function() {
+    connection.on('message', async function(message) {
 
-<<<<<<< Updated upstream
-            console.log(message.utf8Data);
-            connection.send(message.utf8Data)
-=======
+        if (message.utf8Data == "true") {
+            var isContinue = true;
+
+            ssh.connect({
+                host: '10.1.11.212',
+                username: 'macmini4',
+                password: '1234'
+            }).then(async function() {
+                for (loop = 0; loop < 999999; loop++) {
+
+                    if (isContinue == false) {
+                        break;
+                    }
+
+                    var devices = [
+                        "00008030-0018306102E0402E",
+                        "00008030-0002199E0ED3802E",
+                        "00008030-000451410E87802E",
+                        "00008030-0009149C02E0402E",
+                        "c41e0c25fe4c0ce0ef28cf8d4862e08ce5ac46c9",
+                        "0d123e38d24c6df3d198b576fd6f7396ed46978a",
+                        "12b0530d88260b3211a4f360ea42c8c945ddeae4"
+                    ];
+
                     for (i = 0; i < devices.length; i++) {
->>>>>>> Stashed changes
 
-            /*
-            var devices = [
-                "c41e0c25fe4c0ce0ef28cf8d4862e08ce5ac46c9",
-                "0d123e38d24c6df3d198b576fd6f7396ed46978a",
-                "12b0530d88260b3211a4f360ea42c8c945ddeae4",
-                "00008030-0018306102E0402E",
-                "00008030-0002199E0ED3802E",
-                "00008030-000451410E87802E"
-            ];
+                        if (connection.connected == false) {
+                            isContinue = false;
+                            break;
+                        }
 
-            for (i = 0; i < devices.length; i++) {
+                        if (connection.connected == true) {
 
-                console.log(message.utf8Data)
+                            var deviceId = devices[i];
+                            var device = "idevicescreenshot -u " + deviceId + " " + deviceId + ".png";
+                            var base64 = "cat " + deviceId + ".png | base64";
 
-<<<<<<< Updated upstream
-                if (message.utf8Data == "false") {
-                    break;
-                }
-
-                var deviceId = devices[i];
-                var device = "idevicescreenshot -u " + deviceId + " " + deviceId + ".png";
-                var base64 = "cat " + deviceId + ".png | base64";
-
-                console.log(device)
-                console.log(base64)
-
-                await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
-                await ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' })
-                    .then(async function(result) {
-                        await connection.send(JSON.stringify([deviceId, result.stdout]));
-                    });
-            }
-            */
-        });
-=======
                             console.log(deviceId)
                             console.log(device)
                             console.log(base64)
 
-                            connection.send(JSON.stringify([deviceId]));
+
 
                             await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
                             await ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(async function(result) {
@@ -130,11 +116,10 @@ wsServer.on('request', function(request) {
         } else {
             console.log("client => ping")
         }
->>>>>>> Stashed changes
     });
 
     connection.on('close', function(reasonCode, description) {
-        console.log('Client has disconnected.');
+        console.log('Client has disconnected - SERVER');
     });
 });
 
