@@ -16,7 +16,7 @@ async function start(el) {
             console.log('WebSocket Client Connected');
 
             for (let i = 0; i < 99999999; i++) {
-                var phones = document.querySelectorAll('.phones  img');
+                var phones = document.querySelectorAll('.phones img');
                 [].forEach.call(phones, async function(phone) {
                     ws.send(phone.id);
                 });

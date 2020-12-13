@@ -74,12 +74,11 @@ wsServer.on('request', async function(request) {
         logger.warn('Client has disconnected - SERVER');
     });
 
-    async function send(deviceUID) {
+    async function send(uid) {
         if (connection.connected == true) {
 
-            var deviceId = deviceUID;
-            var device = "idevicescreenshot -u " + deviceId + " " + deviceId + ".png";
-            var base64 = "cat " + deviceId + ".png | base64";
+            var device = "idevicescreenshot -u {0} {1}.png".format(uid, uid);
+            var base64 = "cat {0}.png | base64".format(uid);
 
             logger.info(device)
             logger.info(base64)
@@ -91,7 +90,7 @@ wsServer.on('request', async function(request) {
                     logger.warn("connected : " + connection.connected);
 
                     if (connection.connected == true) {
-                        connection.send(JSON.stringify([deviceId, result.stdout]));
+                        connection.send(JSON.stringify([uid, result.stdout]));
                     } else {
                         logger.warn("The operation could not be performed because the websocket was closed.")
                     }
@@ -161,4 +160,15 @@ function onListening() {
         'pipe ' + addr :
         'port ' + addr.port;
     debug('Listening on ' + bind);
+}
+
+/**
+ * Utils
+ */
+String.prototype.format = function() {
+    a = this;
+    for (k in arguments) {
+        a = a.replace("{" + k + "}", arguments[k])
+    }
+    return a
 }
