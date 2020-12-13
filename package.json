@@ -17,6 +17,7 @@
         "require": "~2.4.20",
         "serve-favicon": "~2.4.2",
         "websocket": "~1.0.32",
-        "node-ssh": "~11.1.1"
+        "node-ssh": "~11.1.1",
+        "log4js": "~6.3.0"
     }
 }

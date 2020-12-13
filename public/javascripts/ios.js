@@ -18,7 +18,7 @@ async function start(el) {
             for (let i = 0; i < 99999999; i++) {
                 var phones = document.querySelectorAll('.phones  img');
                 [].forEach.call(phones, async function(phone) {
-                    await ws.send(phone.id);
+                    ws.send(phone.id);
                 });
 
                 for (let i = 0; i < 10; i++) {

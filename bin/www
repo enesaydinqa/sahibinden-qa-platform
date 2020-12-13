@@ -8,6 +8,10 @@ var app = require('../app');
 var debug = require('debug')('website:server');
 var http = require('http');
 
+var log4js = require("log4js");
+var logger = log4js.getLogger();
+logger.level = "debug";
+
 const WebSocketServer = require('websocket').server;
 const { NodeSSH } = require('node-ssh')
 
@@ -51,7 +55,7 @@ wsServer.on('request', async function(request) {
 
         if (message.utf8Data !== "ping" &&  message.utf8Data !== "false") {
             if (sshConnect == null) {
-                console.log("ssh bağlantısı yapıldı.")
+                logger.info("SSH connection has been made ...")
                 sshConnect = ssh.connect({
                     host: '10.1.11.212',
                     username: 'macmini4',
@@ -59,16 +63,15 @@ wsServer.on('request', async function(request) {
                 })
             }
 
-            sshConnect.then(async function() {
-                send(message.utf8Data);
-            });
+            sshConnect.then(function() { send(message.utf8Data); });
         } else {
-            console.log("ping ...")
+            logger.warn("ping ...")
         }
     });
 
     connection.on('close', function(reasonCode, description) {
-        console.log('Client has disconnected - SERVER');
+        sshConnect = null;
+        logger.warn('Client has disconnected - SERVER');
     });
 
     async function send(deviceUID) {
@@ -78,18 +81,24 @@ wsServer.on('request', async function(request) {
             var device = "idevicescreenshot -u " + deviceId + " " + deviceId + ".png";
             var base64 = "cat " + deviceId + ".png | base64";
 
-            console.log("==> " + device)
-            console.log("==> " + base64)
+            logger.info(device)
+            logger.info(base64)
 
-            await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
-            await ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(async function(result) {
+            if (sshConnect !== null && connection.connected == true) {
+                await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
+                ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(function(result) {
 
-                console.log("connected : " + connection.connected);
+                    logger.warn("connected : " + connection.connected);
 
-                if (connection.connected == true) {
-                    connection.send(JSON.stringify([deviceId, result.stdout]));
-                }
-            });
+                    if (connection.connected == true) {
+                        connection.send(JSON.stringify([deviceId, result.stdout]));
+                    } else {
+                        logger.warn("The operation could not be performed because the websocket was closed.")
+                    }
+                });
+            } else {
+                logger.warn("The ssh connection or websocket was unexpectedly closed.")
+            }
         }
     }
 });
