@@ -14,18 +14,22 @@ async function start(el) {
 
         ws.onopen = async function() {
             console.log('WebSocket Client Connected');
-            ws.send(el.checked);
 
-            for (i = 0; i < 999999; i++) {
-                ws.send("test");
-                console.log("client -> server ping ...");
-                await wait(20000)
+            for (let i = 0; i < 99999999; i++) {
+                var phones = document.querySelectorAll('.phones  img');
+                [].forEach.call(phones, async function(phone) {
+                    await ws.send(phone.id);
+                });
+
+                for (let i = 0; i < 10; i++) {
+                    await ws.send("ping")
+                    await wait(5000)
+                }
             }
         };
 
         ws.onmessage = function(e) {
             var data = JSON.parse(e.data);
-            console.log(data[0])
             $("#" + data[0]).removeAttr("src").attr("src", "data:image/jpg;base64," + data[1]);
         };
 
