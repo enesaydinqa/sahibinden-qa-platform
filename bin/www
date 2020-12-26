@@ -85,13 +85,15 @@ wsServer.on('request', async function(request) {
 
             if (sshConnect !== null && connection.connected == true) {
                 await ssh.execCommand(device, { cwd: '/Users/macmini4/Desktop' });
-                ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(function(result) {
+                logger.info("screenshot taken for device : " + uid)
 
-                    logger.warn("connected : " + connection.connected);
+                ssh.execCommand(base64, { cwd: '/Users/macmini4/Desktop' }).then(function(result) {
 
                     if (connection.connected == true) {
                         connection.send(JSON.stringify([uid, result.stdout]));
+                        logger.info("send base64 : " + uid)
                     } else {
+                        logger.warn("connected : " + connection.connected);
                         logger.warn("The operation could not be performed because the websocket was closed.")
                     }
                 });

@@ -15,6 +15,4 @@ function saveExtension() {
         },
         error: function(jqXHR, textStatus, errorThrown) {}
     });
-    ß
-
 }
