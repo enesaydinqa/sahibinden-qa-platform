@@ -65,8 +65,11 @@ input:checked+.slider:before {
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
-    width: 30%;
     float: left;
+}
+
+.ios-device {
+    width: 30%;
     margin-left: 2% !important;
 }
 

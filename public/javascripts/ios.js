@@ -1,33 +1,5 @@
 var ws = null;
 
-async function getIosDevice() {
-    await new Promise((resolve, reject) => {
-        $.ajax({
-            url: "/ios/getIosDevices",
-            type: 'GET',
-            dataType: 'json',
-            success: function(res) {
-                res.forEach(function(uid) {
-                    var card = document.createElement("div");
-                    card.setAttribute("id", uid);
-                    card.setAttribute("class", "card");
-                    document.querySelector("body").appendChild(card);
-                    var img = document.createElement("IMG");
-                    img.setAttribute("src", "img/iphone.png");
-                    document.querySelector("[id='" + uid + "']").appendChild(img);
-                    var divPhoneContainer = document.createElement("div");
-                    divPhoneContainer.setAttribute("class", "phone-container");
-                    document.querySelector("[id='" + uid + "']").appendChild(divPhoneContainer);
-                    var deviceuid = document.createElement("h4");
-                    deviceuid.innerHTML = uid;
-                    document.querySelector("[id='" + uid + "'] .phone-container").appendChild(deviceuid);
-                })
-                resolve(true)
-            }
-        });
-    });
-};
-
 async function wait(ms) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms)
@@ -52,7 +24,7 @@ async function start(el) {
                     ws.send(phone.id);
                 });
 
-                for (let each = 0; each < 5; each++) {
+                for (let each = 0; each < 4; each++) {
                     await ws.send("ping")
                     await wait(10000)
                 }
@@ -61,6 +33,7 @@ async function start(el) {
 
         ws.onmessage = function(e) {
             var data = JSON.parse(e.data);
+            $.notify("update : " + data[0], "success");
             $("[id='" + data[0] + "'] img").removeAttr("src").attr("src", "data:image/jpg;base64," + data[1]);
         };
 
@@ -70,4 +43,36 @@ async function start(el) {
         ws.close();
         location.reload();
     }
+}
+
+async function getIosDevice() {
+    await new Promise((resolve, reject) => {
+        $.ajax({
+            url: "/ios/getIosDevices",
+            type: 'GET',
+            dataType: 'json',
+            success: function(res) {
+                res.forEach(function(uid) {
+                    createPhoneContainer(uid)
+                })
+                resolve(true)
+            }
+        });
+    });
+};
+
+function createPhoneContainer(uid) {
+    var card = document.createElement("div");
+    card.setAttribute("id", uid);
+    card.setAttribute("class", "card ios-device");
+    document.querySelector("body").appendChild(card);
+    var img = document.createElement("IMG");
+    img.setAttribute("src", "img/iphone.png");
+    document.querySelector("[id='" + uid + "']").appendChild(img);
+    var divPhoneContainer = document.createElement("div");
+    divPhoneContainer.setAttribute("class", "phone-container");
+    document.querySelector("[id='" + uid + "']").appendChild(divPhoneContainer);
+    var deviceuid = document.createElement("h4");
+    deviceuid.innerHTML = uid;
+    document.querySelector("[id='" + uid + "'] .phone-container").appendChild(deviceuid);
 }
