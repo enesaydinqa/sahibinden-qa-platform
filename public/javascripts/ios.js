@@ -18,7 +18,7 @@ async function start(el) {
             await getIosDevice()
 
             for (let i = 0; i < 99999999; i++) {
-                var phones = document.querySelectorAll('.card');
+                var phones = document.querySelectorAll('.ios-device');
 
                 [].forEach.call(phones, async function(phone) {
                     ws.send(phone.id);
