@@ -24,7 +24,7 @@ async function start(el) {
                     ws.send(phone.id);
                 });
 
-                for (let each = 0; each < 4; each++) {
+                for (let each = 0; each < 5; each++) {
                     await ws.send("ping")
                     await wait(10000)
                 }
