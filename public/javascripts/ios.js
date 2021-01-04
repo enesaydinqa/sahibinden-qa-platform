@@ -15,13 +15,13 @@ async function start(el) {
         ws.onopen = async function() {
             console.log('WebSocket Client Connected');
 
-            await getIosDevice()
+            await getIosDevice(el.id)
 
             for (let i = 0; i < 99999999; i++) {
                 var phones = document.querySelectorAll('.ios-device');
 
                 [].forEach.call(phones, async function(phone) {
-                    ws.send(phone.id);
+                    ws.send(JSON.stringify({ machineId: el.id, deviceUID: phone.id }))
                 });
 
                 for (let each = 0; each < 5; each++) {
@@ -45,11 +45,12 @@ async function start(el) {
     }
 }
 
-async function getIosDevice() {
+async function getIosDevice(machine) {
     await new Promise((resolve, reject) => {
         $.ajax({
             url: "/ios/getIosDevices",
             type: 'GET',
+            data: { machineId: machine },
             dataType: 'json',
             success: function(res) {
                 res.forEach(function(uid) {
